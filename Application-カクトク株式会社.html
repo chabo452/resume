@@ -1,0 +1,415 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>応募テンプレート — ローカルプレビュー</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+  :root {
+    --primary-color: #2563eb;
+    --bg-color: #f9fafb;
+    --text-color: #1f2937;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(37, 99, 235, 0.15);
+    --font-family: 'Noto Sans JP', sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0; padding: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  header h1 {
+    font-weight: 700;
+    font-size: 24px;
+    margin: 0;
+    color: var(--primary-color);
+  }
+  .header-note {
+    margin-left: auto;
+    font-size: 14px;
+    color: #6b7280;
+  }
+  .controls {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 20px;
+    flex: 1 1 300px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    color: #4b5563;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  input, textarea, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: var(--font-family);
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    background-color: #fff;
+    color: var(--text-color);
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+  textarea {
+    min-height: 140px;
+  }
+  .btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    user-select: none;
+  }
+  .btn:hover {
+    background-color: #1e40af;
+  }
+  .btn:active {
+    transform: translateY(1.5px);
+  }
+  .btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .templates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .templates-list .btn {
+    font-size: 14px;
+    padding: 10px 16px;
+    border-radius: 8px;
+  }
+  select {
+    font-weight: 600;
+  }
+  pre.render {
+    white-space: pre-wrap;
+    background: #1e293b;
+    color: #e0e7ff;
+    border-radius: 10px;
+    padding: 18px;
+    height: 280px;
+    overflow-y: auto;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  footer {
+    margin-top: 28px;
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .controls {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>応募テンプレート — プレビュー＆ダウンロード</h1>
+    <div class="header-note">単一HTMLファイル・オフライン対応</div>
+  </header>
+
+  <section class="controls">
+    <div class="card">
+      <label for="inp_company">会社名</label>
+      <input type="text" id="inp_company" value="カクトク株式会社" />
+
+      <label for="inp_name" style="margin-top:16px;">氏名</label>
+      <input type="text" id="inp_name" value="山田 太郎" />
+
+      <label for="inp_email" style="margin-top:16px;">メールアドレス</label>
+      <input type="email" id="inp_email" value="you@example.com" />
+
+      <label for="inp_tel" style="margin-top:16px;">電話番号</label>
+      <input type="tel" id="inp_tel" value="090-1234-5678" />
+
+      <label for="inp_date" style="margin-top:16px;">作成日</label>
+      <input type="date" id="inp_date" value="2025-08-12" />
+
+      <label for="inp_years" style="margin-top:16px;">営業経験年数</label>
+      <input type="number" id="inp_years" min="0" max="50" value="10" />
+
+      <label for="inp_week" style="margin-top:16px;">希望稼働時間（週・時間）</label>
+      <input type="number" id="inp_week" min="0" max="168" value="25" />
+
+      <div class="btn-group">
+        <button class="btn" id="btn_render">プレビュー更新</button>
+        <button class="btn" id="btn_reset">テンプレ初期化</button>
+        <button class="btn" id="btn_download_md">Markdownダウンロード</button>
+        <button class="btn" id="btn_download_html">HTMLダウンロード</button>
+      </div>
+
+      <small style="color:#6b7280; margin-top: 8px; display: block;">
+        ※ PDF保存はブラウザの印刷機能から可能です（Print → Save as PDF）
+      </small>
+    </div>
+
+    <div class="card" style="min-width:320px;">
+      <label for="sel_template">テンプレート選択</label>
+      <select id="sel_template">
+        <option value="cover">応募文（洗練版）</option>
+        <option value="cv">職務経歴書（詳細版）</option>
+        <option value="onepager">1ページ提案書</option>
+        <option value="pmo_role">PMO的役割ポイント</option>
+      </select>
+
+      <label for="tpl_area" style="margin-top:12px;">テンプレート内容（編集可）</label>
+      <textarea id="tpl_area"></textarea>
+
+      <label style="margin-top:20px;">テンプレート一覧（クリックで読み込み）</label>
+      <div class="templates-list">
+        <button class="btn" data-load="cover">応募文（洗練版）</button>
+        <button class="btn" data-load="cv">職務経歴書（詳細版）</button>
+        <button class="btn" data-load="onepager">1ページ提案書</button>
+        <button class="btn" data-load="pmo_role">PMO的役割ポイント</button>
+      </div>
+
+      <label for="git_note" style="margin-top:20px;">Git 用メモ</label>
+      <textarea id="git_note" style="height:110px" readonly>
+# Git workflow
+# branch: feature/kaktoku-apply-YYYYMMDD
+# commit: feat(apply): add kaktoku docs
+
+examples/cover_letter_kaktoku.md
+examples/cv_kaktoku.md
+scripts/build-package.ps1
+      </textarea>
+    </div>
+  </section>
+
+  <section class="card" style="margin-bottom: 48px;">
+    <label>プレビュー</label>
+    <pre id="render_area" class="render" aria-live="polite"></pre>
+  </section>
+
+  <footer>
+    使い方：テンプレを選択・編集 → プレビュー更新ボタンを押して内容確認 → Markdown または HTML でダウンロードし、Reworkerなどにアップロードしてください。
+  </footer>
+</div>
+
+<script>
+const TPL = {
+  cover: `{{DATE}}
+
+{{COMPANY}} 採用ご担当者様
+
+はじめまして、{{NAME}}と申します。貴社の募集要項（Reworker掲載）を拝見し、「自社プラットフォーム『カクトク』の営業支援コンサルタント」ポジションに強い関心を持ち、応募させていただきました。
+
+【自己紹介と強み】
+- 法人向け新規開拓営業として{{YEARS}}年以上の経験を有し、SaaS、BtoBマーケットプレイスを含む多様な業界に対応
+- 提案から導入、そしてクライアント伴走まで一貫して携わり、営業戦略立案・KPI設計・パートナー選定を得意としています
+- 直近では「○○社の新規開拓で受注率を X%向上、月間LTVを Y 倍に改善」といった実績を有しております
+
+貴社の掲げる「提案競争型マッチング」による最適パートナー選出、また成果創出への伴走スタンスに大きく共感しております。週{{WEEK}}時間〜の稼働が可能で、フルリモート環境でも自律的に成果を追求できます。
+
+何卒よろしくお願い申し上げます。
+
+敬具
+
+{{NAME}}
+連絡先: {{EMAIL}} / {{TEL}}
+`,
+
+  cv: `氏名：{{NAME}}
+会社名：{{COMPANY}}
+作成日：{{DATE}}
+
+--- 職務要約 ---
+法人営業（新規開拓・既存深耕）において{{YEARS}}年以上の経験を有し、SaaS、ITサービス、無形商材など多岐に渡る業界で営業戦略立案から提案・クロージングまで一貫して担当してきました。オンライン商談やCRM活用、リモート営業体制の構築にも強みを持ちます。
+
+--- 職務経歴（抜粋） ---
+[直近] 株式会社〇〇〇〇（業務委託）
+- 役割：法人営業/コンサルタント
+- 業務内容：インサイドセールスからフィールドセールスへの受け渡し改善、商談同席、提案精査、パートナー選定
+- 実績：月平均商談数50件、契約率20%以上を達成
+
+[過去] 株式会社△△△△（正社員）
+- 役割：営業マネージャー
+- 実績：年間売上5,000万円、チーム受注率の大幅改善に貢献
+
+--- スキル ---
+- 法人新規開拓、提案設計、KPI管理
+- CRMツール：Salesforce、HubSpotの利用経験
+- オンライン商談ツール：Zoom、Google Meet
+
+--- 希望条件 ---
+希望稼働：週{{WEEK}}時間
+希望報酬：月30万〜50万（税別）
+`,
+
+  onepager: `タイトル：{{COMPANY}}向け 営業支援提案（1ページ）
+
+1) 課題認識
+- インサイドセールスからフィールドセールスへの受け渡しの精度が低いことによる商談効率・受注率の低下
+
+2) アプローチ（短期〜中期）
+- 短期：商談テンプレート化、評価フレームの導入
+- 中期：提案スコアリング導入、最適パートナーを定量的に抽出
+
+3) 期待効果
+- 商談から提案への転換率 +X%
+- 平均受注リードタイム短縮 -Y日
+
+4) 稼働条件
+- 週{{WEEK}}時間（トライアル初回3ヶ月提案可）
+`,
+
+  pmo_role: `
+【PMO的役割で仕事を任せたくなるポイント】
+
+■ プロジェクト推進の中核としての実務力
+- 進捗、課題、リスクを一元管理し、全体最適を実現。
+- 問題発見から解決まで積極的に推進し、遅延やトラブルを未然に防止。
+- コスト・スケジュール管理に精通し、予算内での納期遵守を徹底。
+
+■ 関係者間のコミュニケーションと調整力
+- 会議のファシリテーションで合意形成をリード。
+- 報告資料作成を通じて上層部や顧客への信頼獲得に貢献。
+- 複数部署や外部ベンダーとの連携を円滑に推進。
+
+■ 主体性と柔軟性を持った自律的な推進
+- 必要に応じた改善提案や対応策を自ら考え実行。
+- チームメンバーの状況把握・支援で業務効率化とモチベーション向上。
+- 責任感を持ち、プロジェクト成功に向けて主体的に動く。
+`
+};
+
+function renderTemplate(tpl, data){
+  return tpl.replace(/\{\{\s*(\w+)\s*\}\}/g, (m, key) => data[key] || '');
+}
+
+function getFormData(){
+  return {
+    COMPANY: document.getElementById('inp_company').value.trim(),
+    NAME: document.getElementById('inp_name').value.trim(),
+    EMAIL: document.getElementById('inp_email').value.trim(),
+    TEL: document.getElementById('inp_tel').value.trim(),
+    DATE: document.getElementById('inp_date').value.trim(),
+    YEARS: document.getElementById('inp_years').value.trim(),
+    WEEK: document.getElementById('inp_week').value.trim()
+  };
+}
+
+function loadTemplate(key){
+  document.getElementById('sel_template').value = key;
+  document.getElementById('tpl_area').value = TPL[key];
+  updatePreview();
+}
+
+function updatePreview(){
+  const tpl = document.getElementById('tpl_area').value;
+  const data = getFormData();
+  const output = renderTemplate(tpl, data);
+  document.getElementById('render_area').textContent = output;
+}
+
+function downloadFile(filename, content, mime) {
+  const blob = new Blob([content], {type: mime});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function downloadMarkdown(){
+  const data = getFormData();
+  const tpl = document.getElementById('tpl_area').value;
+  const md = renderTemplate(tpl, data);
+  downloadFile(`${data.NAME || '応募'}_${data.COMPANY || '会社名'}.md`, md, 'text/markdown');
+}
+
+function downloadHTML(){
+  const data = getFormData();
+  const tpl = document.getElementById('tpl_area').value;
+  const md = renderTemplate(tpl, data);
+  const html = `<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="utf-8"><title>応募文 - ${data.NAME || ''}</title></head>
+<body><pre>${md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></body>
+</html>`;
+  downloadFile(`${data.NAME || '応募'}_${data.COMPANY || '会社名'}.html`, html, 'text/html');
+}
+
+function resetForm(){
+  document.getElementById('inp_company').value = 'カクトク株式会社';
+  document.getElementById('inp_name').value = '山田 太郎';
+  document.getElementById('inp_email').value = 'you@example.com';
+  document.getElementById('inp_tel').value = '090-1234-5678';
+  document.getElementById('inp_date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('inp_years').value = '10';
+  document.getElementById('inp_week').value = '25';
+  loadTemplate('cover');
+}
+
+document.getElementById('btn_render').addEventListener('click', updatePreview);
+document.getElementById('btn_download_md').addEventListener('click', downloadMarkdown);
+document.getElementById('btn_download_html').addEventListener('click', downloadHTML);
+document.getElementById('btn_reset').addEventListener('click', resetForm);
+
+document.getElementById('sel_template').addEventListener('change', e => {
+  loadTemplate(e.target.value);
+});
+
+document.querySelectorAll('.templates-list .btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    loadTemplate(e.currentTarget.dataset.load);
+  });
+});
+
+document.getElementById('tpl_area').addEventListener('input', () => {
+  // オートプレビューしない仕様のためコメントアウト
+  // updatePreview();
+});
+
+// 初期表示
+resetForm();
+</script>
+
+</body>
+</html>
